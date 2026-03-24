@@ -1,8 +1,8 @@
 name: abc
 on:
   schedule:
-    - cron: '0 0 * * *' 
-  workflow_dispatch: 
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
   sync:
@@ -11,9 +11,11 @@ jobs:
       - uses: actions/checkout@v3
       - name: Sync upstream
         run: |
-          git remote add upstream https://github.com/ItsBrank/CNRL.git
+          git config user.email "action@github.com"
+          git config user.name "GitHub Action"
+          git remote add upstream https://github.com/ShinyEmii/Toga-Files.git
           git fetch upstream
           git merge upstream/master --allow-unrelated-histories
-          git push
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
